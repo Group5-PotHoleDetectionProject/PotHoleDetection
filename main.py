@@ -143,6 +143,12 @@ model.save('model_sample.h5')
 model_json = model.to_json()
 with open("sample.json", "w") as json_file:
     json_file.write(model_json)
+        
+#accuracy
+metricsTrain = model.evaluate(X_train, y_train)
+print("Training Accuracy: ",metricsTrain[1]*100,"%")
+metricsTest = model.evaluate(X_test,y_test)
+print("Testing Accuracy: ",metricsTest[1]*100,"%")
 
 model.save_weights("sample.weights.h5")
 print("Model Was Created And Saved To Disk")
