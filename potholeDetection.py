@@ -60,11 +60,11 @@ def classify():
     img = cv2.resize(img, (400,400))
     if predict == 0:
         cv2.rectangle(img, (0, 0), (300, 50), (0, 0, 0), -1) 
-        cv2.putText(img, 'No Pothole Detected', (10, 25),  cv2.FONT_HERSHEY_SIMPLEX,0.7, (255, 0, 0), 2)
+        cv2.putText(img, 'No Pothole Detected', (10, 25),  cv2.FONT_HERSHEY_SIMPLEX,0.9, (0, 255, 0), 3)
         cv2.imshow('No Pothole Detected', img)
     else:
         cv2.rectangle(img, (0, 0), (300, 50), (0, 0, 0), -1) 
-        cv2.putText(img, "Pothole Detected", (10, 25),  cv2.FONT_HERSHEY_SIMPLEX,0.7, (255, 0, 0), 2)
+        cv2.putText(img, "Pothole Detected", (10, 25),  cv2.FONT_HERSHEY_SIMPLEX,0.9, (0, 0, 255), 3)
         cv2.imshow("Pothole Detected", img)
     cv2.waitKey(0)
     
