@@ -85,10 +85,6 @@ A_testing.extend(var3)
 A_testing.extend(var4)
 A_testing = np.asarray(A_testing)
 
-
-
-
-
 B_training1 = np.ones([var1.shape[0]],dtype = int)
 B_training2 = np.zeros([var2.shape[0]],dtype = int)
 B_testing1 = np.ones([var3.shape[0]],dtype = int)
@@ -109,7 +105,6 @@ B_testing.extend(B_testing1)
 B_testing.extend(B_testing2)
 B_testing = np.asarray(B_testing)
 
-
 A_training,B_training = shuffle(A_training,B_training)
 A_testing,B_testing = shuffle(A_testing,B_testing)
 
@@ -120,13 +115,11 @@ A_testing = A_testing.reshape(A_testing.shape[0], size, size, 1)
 B_training = to_categorical(B_training)
 B_testing = to_categorical(B_testing)
 
-
 print("train shape X", A_training.shape)
 print("train shape y", B_training.shape)
 
 inputShape = (size, size, 1)
 model = pothole_model()
-
 
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
@@ -137,18 +130,22 @@ for metric_i in range(len(model.metrics_names)):
     metric_value = metrics[metric_i]
     print('{}: {}'.format(metric_name, metric_value))
 
-
 model.save('model_sample.h5')
 
 model_json = model.to_json()
 with open("sample.json", "w") as json_file:
     json_file.write(model_json)
         
-#accuracy
-metricsTrain = model.evaluate(X_train, y_train)
-print("Training Accuracy: ",metricsTrain[1]*100,"%")
-metricsTest = model.evaluate(X_test,y_test)
-print("Testing Accuracy: ",metricsTest[1]*100,"%")
+#confusion matrix
+x_pred=model.predict(A_testing)
+x_pred_class=np.argmax(x_pred,axis=1)
+x_true=np.argmax(B_testing,axis=1)
+matrix=confusion_matrix(x_true,x_pred_class)
+plt.figure(figsize=(4,3))
+sns.heatmap(matrix,annot=True,cmap='Blues',fmt='d', cbar=False, square=True)
+plt.xlabel('predicted')
+plt.ylabel('Actual')
+plt.show()
 
 model.save_weights("sample.weights.h5")
 print("Model Was Created And Saved To Disk")
